@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>DoubleSceensBlack</RootNamespace>
+    <AssemblyName>DoubleSceensBlack</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Resource Include="Ressources\Logos\Logo_DSB.png" />
+    <Resource Include="Ressources\Logos\Options_DSB.png" />
+    <Resource Include="Ressources\Logos\Flèche_droite.png" />
+    <Resource Include="Ressources\Logos\Flèche_gauche.png" />
+    <Resource Include="Ressources\Logos\Logo_Déplacement.png" />
+  </ItemGroup>
+</Project>

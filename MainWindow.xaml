@@ -1,0 +1,488 @@
+<Window x:Class="DoubleSceensBlack.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        Title="Double Sceens Black"
+        Width="620"
+        Height="850"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        ShowInTaskbar="True"
+        Background="{DynamicResource WindowBackgroundBrush}"
+        WindowStartupLocation="CenterScreen">
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="40" ResizeBorderThickness="0"
+                            GlassFrameThickness="0" CornerRadius="0"
+                            UseAeroCaptionButtons="False" />
+    </shell:WindowChrome.WindowChrome>
+    <Window.Icon>
+        <BitmapImage UriSource="/DoubleSceensBlack;component/Ressources/Logos/Logo_DSB.png" />
+    </Window.Icon>
+    <Window.Resources>
+        <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="PrimaryTextBrush" Color="#202938" />
+        <SolidColorBrush x:Key="SecondaryTextBrush" Color="#64748B" />
+        <SolidColorBrush x:Key="CardBackgroundBrush" Color="#F3F6FA" />
+        <SolidColorBrush x:Key="DisabledMonitorBackgroundBrush" Color="#F3F6FA" />
+        <SolidColorBrush x:Key="FieldBackgroundBrush" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="FieldBorderBrush" Color="#CBD5E1" />
+        <SolidColorBrush x:Key="ButtonBorderBrush" Color="#3978D4" />
+        <SolidColorBrush x:Key="ButtonHoverBorderBrush" Color="#3978D4" />
+        <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="#E8EDF4" />
+        <SolidColorBrush x:Key="AccentBrush" Color="#3978D4" />
+        <SolidColorBrush x:Key="SwitchOffBrush" Color="#CBD5E1" />
+        <Style x:Key="TitleBarButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="44" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="shell:WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="TitleButtonBorder"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="TitleButtonBorder" Property="Background"
+                                        Value="{DynamicResource ButtonBackgroundBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="TitleButtonBorder" Property="Opacity" Value="0.7" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TitleBarCloseButtonStyle" TargetType="Button"
+               BasedOn="{StaticResource TitleBarButtonStyle}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#3978D4" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="14,9" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush"
+                                        Value="{DynamicResource ButtonHoverBorderBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.85" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.6" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="MainActionButtonStyle" TargetType="Button"
+               BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4"
+                                SnapsToDevicePixels="True">
+                            <Grid ClipToBounds="True">
+                                <Border x:Name="HoverReflection" Margin="1" CornerRadius="3"
+                                        IsHitTestVisible="False" Opacity="0">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0.8,1">
+                                            <GradientStop Color="#D9000000" Offset="0" />
+                                            <GradientStop Color="#88000000" Offset="0.42" />
+                                            <GradientStop Color="#00000000" Offset="0.9" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                                <Border x:Name="WakeReflection" Margin="1" CornerRadius="3"
+                                        IsHitTestVisible="False" Opacity="0">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0.8,1">
+                                            <GradientStop Color="#D9FFFFFF" Offset="0" />
+                                            <GradientStop Color="#88FFFFFF" Offset="0.42" />
+                                            <GradientStop Color="#00FFFFFF" Offset="0.9" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  RecognizesAccessKey="True"
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush"
+                                        Value="{DynamicResource ButtonHoverBorderBrush}" />
+                                <Setter TargetName="HoverReflection" Property="Opacity" Value="1" />
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True" />
+                                    <Condition Property="Tag" Value="Wake" />
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="HoverReflection" Property="Opacity" Value="0" />
+                                <Setter TargetName="WakeReflection" Property="Opacity" Value="1" />
+                            </MultiTrigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.85" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.6" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="MainSwitchStyle" TargetType="ToggleButton">
+            <Setter Property="Width" Value="54" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Grid>
+                            <Border x:Name="Track" CornerRadius="15"
+                                    Background="{DynamicResource SwitchOffBrush}" />
+                            <Ellipse x:Name="Thumb" Width="22" Height="22" Margin="4"
+                                     Fill="White" HorizontalAlignment="Left" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Track" Property="Background"
+                                        Value="{DynamicResource AccentBrush}" />
+                                <Setter TargetName="Thumb" Property="HorizontalAlignment" Value="Right" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.6" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Border BorderBrush="{DynamicResource FieldBorderBrush}" BorderThickness="1">
+    <Grid ClipToBounds="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Background="{DynamicResource WindowBackgroundBrush}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Background="Transparent"
+                        MouseLeftButtonDown="TitleBar_MouseLeftButtonDown" />
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button Style="{StaticResource TitleBarButtonStyle}"
+                            Content="−" ToolTip="Réduire" AutomationProperties.Name="Réduire"
+                            Click="MinimizeWindow_Click" />
+                    <Button Style="{StaticResource TitleBarCloseButtonStyle}"
+                            Content="×" ToolTip="Fermer" AutomationProperties.Name="Fermer"
+                            Click="CloseWindow_Click" />
+                </StackPanel>
+            </Grid>
+        </Border>
+        <Viewbox Grid.Row="1" Margin="12,4,12,12" Stretch="Uniform" StretchDirection="DownOnly">
+        <Grid Width="580" Height="760" Margin="20,8,20,20">
+            <Grid Grid.Row="0" Width="580" ClipToBounds="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="530" />
+                    <ColumnDefinition Width="50" />
+                </Grid.ColumnDefinitions>
+                    <StackPanel x:Name="ScreensPage" Grid.Column="0" Width="530" HorizontalAlignment="Left">
+                        <StackPanel.RenderTransform>
+                            <TranslateTransform x:Name="ScreensPageTransform" />
+                        </StackPanel.RenderTransform>
+                        <DockPanel Margin="0,0,0,16" LastChildFill="True">
+                            <Button x:Name="OptionsButton" DockPanel.Dock="Right" Margin="10,0,0,8"
+                                    Padding="8" Background="Transparent" BorderThickness="0"
+                                    ToolTip="Ouvrir les options"
+                                    AutomationProperties.Name="Options"
+                                    Click="OptionsButton_Click">
+                                <Image Width="25" Height="25"
+                                       Source="/DoubleSceensBlack;component/Ressources/Logos/Options_DSB.png"
+                                       Stretch="Uniform"
+                                       AutomationProperties.Name="Options" />
+                            </Button>
+                            <Image Width="112" Height="58" Margin="0,0,14,0" DockPanel.Dock="Left"
+                                   Source="/DoubleSceensBlack;component/Ressources/Logos/Logo_DSB.png"
+                                   Stretch="Uniform"
+                                   AutomationProperties.Name="Logo Double Sceens Black" />
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock FontSize="26" FontWeight="SemiBold" Text="Double Sceens Black" />
+                                <TextBlock Margin="0,6,0,0" Foreground="{DynamicResource SecondaryTextBrush}"
+                                           Text="Assombrissez un ou plusieurs écrans d'un raccourci." />
+                            </StackPanel>
+                        </DockPanel>
+
+                        <Border Margin="0,0,0,14" Padding="16" CornerRadius="10" Background="{DynamicResource CardBackgroundBrush}">
+                            <StackPanel>
+                                <DockPanel Margin="0,0,0,10">
+                                    <Button DockPanel.Dock="Right" Margin="0,0,8,0" Content="Actualiser"
+                                            Click="RefreshMonitors_Click" />
+                                    <TextBlock FontSize="17" FontWeight="SemiBold" Text="Écrans"
+                                               VerticalAlignment="Center" />
+                                </DockPanel>
+                                <TextBlock x:Name="AllScreensDescriptionText" Margin="2,0,2,8"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource SecondaryTextBrush}"
+                                           Text="Appliquer la même intensité à tous les écrans." />
+                                <StackPanel>
+                                    <Border Margin="0,0,0,8" Padding="10" CornerRadius="6">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="{DynamicResource DisabledMonitorBackgroundBrush}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsChecked, ElementName=AllScreensToggle}" Value="True">
+                                                        <Setter Property="Background" Value="{DynamicResource WindowBackgroundBrush}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="54" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel VerticalAlignment="Center">
+                                                <TextBlock x:Name="AllScreensTitleText" FontSize="15"
+                                                           FontWeight="SemiBold" Text="Tous les écrans" />
+                                            </StackPanel>
+                                            <TextBlock x:Name="AllScreensValueText" Grid.Column="1" Margin="0,0,12,0"
+                                                       VerticalAlignment="Center" FontWeight="SemiBold"
+                                                       Foreground="White">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Text" Value="Non" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=AllScreensToggle}" Value="True">
+                                                                <Setter Property="Text" Value="Oui" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                            <ToggleButton x:Name="AllScreensToggle" Grid.Column="2"
+                                                          AutomationProperties.Name="Tous les écrans"
+                                                          Style="{StaticResource MainSwitchStyle}"
+                                                          Checked="AllScreensToggle_Changed"
+                                                          Unchecked="AllScreensToggle_Changed" />
+                                            <StackPanel x:Name="SharedIntensityControls" Grid.Row="1"
+                                                        Grid.ColumnSpan="3" Margin="0,8,0,0">
+                                                <DockPanel>
+                                                    <TextBlock x:Name="SharedIntensityValueText" DockPanel.Dock="Right"
+                                                               FontWeight="SemiBold" Text="0 %" />
+                                                    <TextBlock x:Name="SharedIntensityLabelText"
+                                                               Foreground="{DynamicResource SecondaryTextBrush}"
+                                                               Text="Intensité commune" />
+                                                </DockPanel>
+                                                <Slider x:Name="SharedIntensitySlider" Margin="0,4,0,0"
+                                                        Minimum="0" Maximum="100" TickFrequency="10"
+                                                        IsSnapToTickEnabled="True"
+                                                        ValueChanged="SharedIntensitySlider_ValueChanged" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                    <TextBlock Margin="2,0,2,4" FontSize="12"
+                                               Foreground="{DynamicResource SecondaryTextBrush}"
+                                               Text="Appliquer une intensité différente à chaque écran (désactiver « Tous les écrans »)." />
+                                    <ScrollViewer Height="240" VerticalScrollBarVisibility="Auto"
+                                                  HorizontalScrollBarVisibility="Disabled">
+                                        <StackPanel x:Name="MonitorControlsPanel" />
+                                    </ScrollViewer>
+                                    <TextBlock x:Name="NoMonitorsText" Margin="0,8,0,0"
+                                               Foreground="{DynamicResource SecondaryTextBrush}"
+                                               Text="Aucun écran détecté." Visibility="Collapsed" />
+                                    <DockPanel Margin="0,4,0,0">
+                                        <TextBlock Foreground="{DynamicResource SecondaryTextBrush}"
+                                                   Text="Écran normal" />
+                                        <TextBlock DockPanel.Dock="Right"
+                                                   Foreground="{DynamicResource SecondaryTextBrush}"
+                                                   Text="Noir complet" />
+                                    </DockPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <StackPanel Margin="0,12,0,0">
+                            <Button x:Name="ToggleButton" Height="48" HorizontalAlignment="Stretch"
+                                    Style="{StaticResource MainActionButtonStyle}"
+                                    Foreground="White" FontWeight="SemiBold"
+                                    Content="Assombrir les écrans" IsEnabled="False"
+                                    Click="ToggleButton_Click" />
+                            <TextBlock x:Name="StatusText" Margin="0,12,0,0"
+                                       Foreground="{DynamicResource SecondaryTextBrush}"
+                                       TextWrapping="Wrap"
+                                       Text="Prêt." />
+                            <TextBlock Margin="0,8,0,0" FontSize="12"
+                                       Foreground="{DynamicResource SecondaryTextBrush}"
+                                       TextWrapping="Wrap"
+                                       Text="L'assombrissement est un voile noir logiciel. Il ne modifie pas le rétroéclairage et n'éteint pas physiquement l'écran." />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Grid x:Name="MovesPage" Grid.ColumnSpan="2" Width="580" HorizontalAlignment="Left">
+                        <Grid.RenderTransform>
+                            <TranslateTransform x:Name="MovesPageTransform" X="580" />
+                        </Grid.RenderTransform>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="530" />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Width="42" Height="48" Padding="7"
+                                Margin="0,90,0,0"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Background="Transparent" BorderThickness="0"
+                                ToolTip="Retour aux écrans"
+                                AutomationProperties.Name="Retour aux écrans"
+                                Click="ShowScreensPanel_Click">
+                            <Image Width="26" Height="32"
+                                   Source="/DoubleSceensBlack;component/Ressources/Logos/Flèche_gauche.png"
+                                   Stretch="Uniform" />
+                        </Button>
+                        <StackPanel Grid.Column="1" Width="530" HorizontalAlignment="Left">
+                            <DockPanel Margin="0,0,0,16" LastChildFill="True">
+                                <Button x:Name="MovesOptionsButton" DockPanel.Dock="Right" Margin="10,0,0,8"
+                                        Padding="8" Background="Transparent" BorderThickness="0"
+                                        ToolTip="Ouvrir les options"
+                                        AutomationProperties.Name="Options"
+                                        Click="OptionsButton_Click">
+                                    <Image Width="25" Height="25"
+                                           Source="/DoubleSceensBlack;component/Ressources/Logos/Options_DSB.png"
+                                           Stretch="Uniform"
+                                           AutomationProperties.Name="Options" />
+                                </Button>
+                                <Image Width="88" Height="58" Margin="0,0,14,0" DockPanel.Dock="Left"
+                                       Source="/DoubleSceensBlack;component/Ressources/Logos/Logo_Déplacement.png"
+                                       Stretch="Uniform"
+                                       AutomationProperties.Name="Logo Déplacement Screen Black" />
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock FontSize="22" FontWeight="SemiBold"
+                                               Text="Deplacement Screen Black" />
+                                               <TextBlock Margin="0,6,0,0" Foreground="{DynamicResource SecondaryTextBrush}"
+                                           Text="Déplacez les fenêtres entre les écrans en un clic." />
+                                </StackPanel>
+                            </DockPanel>
+
+                            <Border Margin="0,0,0,14" Padding="16" CornerRadius="10"
+                                    Background="{DynamicResource CardBackgroundBrush}">
+                                <StackPanel>
+                                    <TextBlock Margin="0,0,0,12" FontSize="17" FontWeight="SemiBold"
+                                               Text="Déplacements" />
+                                    <TextBlock Margin="0,0,0,6" FontWeight="SemiBold"
+                                               Text="Applications ouvertes" />
+                                    <DockPanel Margin="0,0,0,14">
+                                        <Button DockPanel.Dock="Right" Margin="8,0,0,0" Padding="10,6"
+                                                Content="Actualiser" Click="RefreshOpenWindows_Click" />
+                                        <ComboBox x:Name="OpenWindowComboBox"
+                                                  Height="36" Padding="8,5"
+                                                  VerticalContentAlignment="Center"
+                                                  Style="{StaticResource ThemeSelectorStyle}"
+                                                  DisplayMemberPath="DisplayName"
+                                                  DropDownOpened="OpenWindowComboBox_DropDownOpened"
+                                                  SelectionChanged="MoveSelection_Changed"
+                                                  ToolTip="Choisissez une fenêtre actuellement ouverte" />
+                                    </DockPanel>
+                                    <TextBlock Margin="0,0,0,6" FontWeight="SemiBold"
+                                               Text="Écran de destination" />
+                                    <ComboBox x:Name="DestinationMonitorComboBox" Margin="0,0,0,16"
+                                              Height="36" Padding="8,5"
+                                              VerticalContentAlignment="Center"
+                                              Style="{StaticResource ThemeSelectorStyle}"
+                                              DisplayMemberPath="DisplayName"
+                                              SelectionChanged="MoveSelection_Changed" />
+                                    <TextBlock Margin="0,0,0,8" FontWeight="SemiBold"
+                                               Text="Mode de déplacement" />
+                                    <RadioButton x:Name="MaximizeMoveRadioButton" Margin="2,0,0,8"
+                                                 IsChecked="True" GroupName="MoveMode"
+                                                 Foreground="White"
+                                                 Content="Agrandi : la fenêtre s'adapte à l'écran de destination" />
+                                    <RadioButton x:Name="SimpleMoveRadioButton" Margin="2,0,0,16"
+                                                 GroupName="MoveMode"
+                                                 Foreground="White"
+                                                 Content="Simple : centrer la fenêtre en conservant sa taille" />
+                                    <Button x:Name="MoveWindowButton" Height="42"
+                                            HorizontalAlignment="Stretch" Content="Valider le déplacement"
+                                            Click="MoveWindow_Click" />
+                                    <TextBlock x:Name="NoOpenWindowsText" Margin="0,10,0,0"
+                                               Foreground="{DynamicResource SecondaryTextBrush}"
+                                               Text="Aucune fenêtre ouverte détectée."
+                                               TextWrapping="Wrap" Visibility="Collapsed" />
+                                    <TextBlock x:Name="NoDestinationMonitorsText" Margin="0,10,0,0"
+                                               Foreground="{DynamicResource SecondaryTextBrush}"
+                                               Text="Aucun écran de destination détecté."
+                                               TextWrapping="Wrap" Visibility="Collapsed" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                <Button x:Name="ShowMovesPanelButton" Grid.Column="1" Width="42" Height="48"
+                        Padding="7" Margin="0,90,0,0"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Background="Transparent" BorderThickness="0"
+                        ToolTip="Ouvrir les déplacements"
+                        AutomationProperties.Name="Ouvrir les déplacements"
+                        Click="ShowMovesPanel_Click">
+                    <Image Width="26" Height="32"
+                           Source="/DoubleSceensBlack;component/Ressources/Logos/Flèche_droite.png"
+                           Stretch="Uniform" />
+                </Button>
+            </Grid>
+
+        </Grid>
+        </Viewbox>
+    </Grid>
+    </Border>
+</Window>

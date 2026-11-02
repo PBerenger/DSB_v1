@@ -1,0 +1,6 @@
+bin/
+obj/
+Executable/publish/
+Executable/BSD_installer.exe
+*.user
+*.suo
