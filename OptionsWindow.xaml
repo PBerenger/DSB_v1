@@ -225,7 +225,7 @@
                                    Text="Réduire dans la barre des tâches" />
                         <TextBlock Margin="0,4,0,0" FontSize="12"
                                    Foreground="{DynamicResource SecondaryTextBrush}"
-                                   Text="BSD est réduit dans la zone de notification." />
+                                   Text="Si « Ouvrir l'application au démarrage » est activé, BSD démarre dans la zone de notification." />
                     </StackPanel>
                     <TextBlock x:Name="MinimizeValueText" Grid.Column="1" Margin="0,0,12,0"
                                VerticalAlignment="Center" FontWeight="SemiBold"

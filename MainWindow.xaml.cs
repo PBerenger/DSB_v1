@@ -58,6 +58,7 @@ public partial class MainWindow : Window
     private bool _isInitializing = true;
     private bool _allowClose;
     private bool _isMovesPanelVisible;
+    private bool _hasHandledInitialLoad;
     private Forms.NotifyIcon? _notifyIcon;
     private Forms.ContextMenuStrip? _notifyContextMenu;
     private DrawingIcon? _trayIconImage;
@@ -65,6 +66,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        Loaded += MainWindow_Loaded;
         _settingsSaveTimer.Tick += SettingsSaveTimer_Tick;
 
         Rect workArea = SystemParameters.WorkArea;
@@ -127,6 +129,29 @@ public partial class MainWindow : Window
 
     private void CloseWindow_Click(object sender, RoutedEventArgs e) => Close();
 
+    private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+    {
+        if (_hasHandledInitialLoad)
+        {
+            return;
+        }
+
+        _hasHandledInitialLoad = true;
+        try
+        {
+            StartupRegistration.UpgradeLegacyRegistration();
+        }
+        catch (Exception exception) when (exception is IOException or UnauthorizedAccessException or System.Security.SecurityException)
+        {
+            StatusText.Text = $"Le lancement automatique n'a pas pu être actualisé : {exception.Message}";
+        }
+
+        if (StartupRegistration.IsStartupLaunch() && _settings.MinimizeOnClose)
+        {
+            MinimizeToTray();
+        }
+    }
+
     protected override void OnClosed(EventArgs e)
     {
         if (_settingsSaveTimer.IsEnabled)
@@ -159,13 +184,7 @@ public partial class MainWindow : Window
         if (!e.Cancel && !_allowClose && _settings.MinimizeOnClose)
         {
             e.Cancel = true;
-            if (_notifyIcon is not null)
-            {
-                _notifyIcon.Visible = true;
-                Hide();
-                StatusText.Text = "L'application est réduite dans la zone de notification.";
-            }
-            else
+            if (!MinimizeToTray())
             {
                 e.Cancel = false;
                 ShowInformationDialog(
@@ -175,6 +194,19 @@ public partial class MainWindow : Window
             }
         }
 
+    }
+
+    private bool MinimizeToTray()
+    {
+        if (_notifyIcon is null)
+        {
+            return false;
+        }
+
+        _notifyIcon.Visible = true;
+        Hide();
+        StatusText.Text = "L'application est réduite dans la zone de notification.";
+        return true;
     }
 
     private void InitializeNotifyIcon()

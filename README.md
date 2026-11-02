@@ -17,7 +17,7 @@ Application Windows en WPF pour assombrir un écran ou tous les écrans avec un 
 - Les intensités par défaut des écrans et le réglage commun commencent à 0 % ; les valeurs déjà enregistrées sont conservées.
 - Utilisez le bouton ou le raccourci pour assombrir puis rétablir les écrans.
 - Une confirmation s'affiche avant d'assombrir tous les écrans à 100 %, avec le raccourci global actuel pour pouvoir rétablir l'affichage.
-- Le bouton « Options » ouvre une fenêtre modale qui permet de choisir le thème bleu ou noir, de configurer le raccourci global, d'activer le démarrage avec Windows et de masquer l'application dans la zone de notification au lieu de la fermer avec la croix. Double-cliquez sur son logo pour la rouvrir, ou utilisez le menu contextuel pour l'ouvrir ou quitter l'application.
+- Le bouton « Options » ouvre une fenêtre modale qui permet de choisir le thème bleu ou noir, de configurer le raccourci global, d'activer le démarrage avec Windows et de masquer l'application dans la zone de notification au lieu de la fermer avec la croix. Si ces deux dernières options sont activées, l'application démarre directement réduite dans la zone de notification. Double-cliquez sur son logo pour la rouvrir, ou utilisez le menu contextuel pour l'ouvrir ou quitter l'application.
 
 Le raccourci est actif tant que l'application est ouverte. Les préférences d'affichage sont enregistrées dans `%LOCALAPPDATA%\DoubleSceensBlack\settings.json`. L'option de démarrage utilise l'entrée de démarrage de l'utilisateur Windows courant.
 

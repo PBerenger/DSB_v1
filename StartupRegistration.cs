@@ -6,15 +6,21 @@ internal static class StartupRegistration
 {
     private const string RunKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Run";
     private const string ValueName = "DoubleSceensBlack";
+    private const string StartupArgument = "--startup";
 
     public static bool IsEnabled()
     {
         using RegistryKey? runKey = Registry.CurrentUser.OpenSubKey(RunKeyPath, writable: false);
         string? registeredCommand = runKey?.GetValue(ValueName) as string;
         string? executablePath = Environment.ProcessPath;
-        return registeredCommand is not null
-            && executablePath is not null
-            && string.Equals(registeredCommand, Quote(executablePath), StringComparison.OrdinalIgnoreCase);
+        if (registeredCommand is null || executablePath is null)
+        {
+            return false;
+        }
+
+        string legacyCommand = Quote(executablePath);
+        return string.Equals(registeredCommand, legacyCommand, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(registeredCommand, BuildCommand(executablePath), StringComparison.OrdinalIgnoreCase);
     }
 
     public static void SetEnabled(bool enabled)
@@ -28,10 +34,50 @@ internal static class StartupRegistration
             return;
         }
 
-        string executablePath = Environment.ProcessPath
-            ?? throw new InvalidOperationException("Le chemin de l'application est introuvable.");
-        runKey.SetValue(ValueName, Quote(executablePath), RegistryValueKind.String);
+        runKey.SetValue(ValueName, BuildCommand(
+            Environment.ProcessPath
+                ?? throw new InvalidOperationException("Le chemin de l'application est introuvable.")),
+            RegistryValueKind.String);
     }
+
+    public static bool IsStartupLaunch() =>
+        Environment.GetCommandLineArgs()
+            .Skip(1)
+            .Any(argument => string.Equals(argument, StartupArgument, StringComparison.OrdinalIgnoreCase));
+
+    public static void UpgradeLegacyRegistration()
+    {
+        string? executablePath = Environment.ProcessPath;
+        if (executablePath is null)
+        {
+            return;
+        }
+
+        string legacyCommand = Quote(executablePath);
+        using RegistryKey? readKey = Registry.CurrentUser.OpenSubKey(RunKeyPath, writable: false);
+        if (!string.Equals(
+                readKey?.GetValue(ValueName) as string,
+                legacyCommand,
+                StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        using RegistryKey? writeKey = Registry.CurrentUser.OpenSubKey(RunKeyPath, writable: true);
+        if (writeKey is null
+            || !string.Equals(
+                writeKey.GetValue(ValueName) as string,
+                legacyCommand,
+                StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        writeKey.SetValue(ValueName, BuildCommand(executablePath), RegistryValueKind.String);
+    }
+
+    private static string BuildCommand(string executablePath) =>
+        $"{Quote(executablePath)} {StartupArgument}";
 
     private static string Quote(string value) => $"\"{value}\"";
 }
